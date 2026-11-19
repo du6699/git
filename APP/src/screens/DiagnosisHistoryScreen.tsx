@@ -1,0 +1,661 @@
+// 诊断历史页面 - Neumorphism 风格美化
+import React, { useEffect, useState, useCallback } from 'react';
+import {
+  View,
+  Text,
+  StyleSheet,
+  FlatList,
+  TouchableOpacity,
+  Image,
+  ActivityIndicator,
+  Pressable,
+  Animated,
+  Alert,
+} from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { useFocusEffect } from '@react-navigation/native';
+import { getDiagnoses, deleteDiagnosis, toggleFavorite, DiagnosisRecord } from '../services/diagnosisService';
+import { API_BASE_URL } from '../services/config';
+import { colors, spacing, borderRadius, shadows, duration, fontSize, fontWeight, touchTarget } from '../constants/theme';
+import { Icon } from '../components/Icon';
+
+interface DiagnosisHistoryScreenProps {
+  onGoBack: () => void;
+  onNavigate: (page: string, params?: any) => void;
+  currentTab?: string;
+  onTabChange?: (tab: string) => void;
+  isLoggedIn?: boolean;
+  onRequireLogin?: () => void;
+}
+
+interface EmptyStateProps {
+  filter: 'all' | 'favorite';
+  onNavigateToDiagnosis: () => void;
+}
+
+// 获取完整的图片URL
+const getFullImageUrl = (url: string | undefined): string | undefined => {
+  if (!url || typeof url !== 'string') return undefined;
+  const trimmed = url.trim();
+  if (trimmed.length === 0) return undefined;
+
+  // 已经是完整的URL（包括 http, https, file, ph 等）
+  if (trimmed.startsWith('http://') || trimmed.startsWith('https://') ||
+      trimmed.startsWith('file://') || trimmed.startsWith('ph://') ||
+      trimmed.startsWith('asset-library://')) {
+    return trimmed;
+  }
+
+  // 已经是完整的图片服务器URL
+  if (trimmed.includes(API_BASE_URL)) {
+    return trimmed;
+  }
+
+  // 相对路径，拼接API地址
+  // 确保路径以 / 开头
+  const cleanPath = trimmed.startsWith('/') ? trimmed : `/${trimmed}`;
+  return `${API_BASE_URL}${cleanPath}`;
+};
+
+const EmptyState: React.FC<EmptyStateProps> = React.memo(({ filter, onNavigateToDiagnosis }) => {
+  const isEmptyState = filter === 'all';
+
+  return (
+    <View style={styles.emptyContainer}>
+      <View style={styles.emptyIconContainer}>
+        <View style={styles.emptyIconInner}>
+          <Icon
+            name={isEmptyState ? 'clipboard' : 'star'}
+            size={48}
+            color={colors.primary}
+          />
+        </View>
+      </View>
+      <Text style={styles.emptyTitle}>
+        {isEmptyState ? '暂无诊断记录' : '暂无收藏'}
+      </Text>
+      <Text style={styles.emptySubtitle}>
+        {isEmptyState
+          ? '开始拍照诊断，记录植物健康状况'
+          : '点击收藏按钮，保存重要的诊断结果'}
+      </Text>
+      {isEmptyState && (
+        <TouchableOpacity
+          style={styles.emptyButton}
+          onPress={onNavigateToDiagnosis}
+          activeOpacity={duration.pressed}
+        >
+          <View style={styles.emptyButtonIcon}>
+            <Icon name="camera" size={20} color={colors.white} />
+          </View>
+          <Text style={styles.emptyButtonText}>开始诊断</Text>
+        </TouchableOpacity>
+      )}
+    </View>
+  );
+});
+
+EmptyState.displayName = 'EmptyState';
+
+const CONFIDENCE_THRESHOLDS = {
+  HIGH: 0.8,
+  MEDIUM: 0.5,
+};
+
+const getConfidenceConfig = (confidence: number) => {
+  if (confidence >= CONFIDENCE_THRESHOLDS.HIGH) {
+    return { label: '高置信', color: colors.success, bgColor: colors.successLight };
+  }
+  if (confidence >= CONFIDENCE_THRESHOLDS.MEDIUM) {
+    return { label: '中等', color: colors.warning, bgColor: colors.warningLight };
+  }
+  return { label: '低置信', color: colors.error, bgColor: colors.errorLight };
+};
+
+export function DiagnosisHistoryScreen({ onGoBack, onNavigate, isLoggedIn, onRequireLogin }: DiagnosisHistoryScreenProps) {
+  const [records, setRecords] = useState<DiagnosisRecord[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [filter, setFilter] = useState<'all' | 'favorite'>('all');
+
+  // 使用 useFocusEffect 每次页面获得焦点时检查登录状态
+  useFocusEffect(
+    useCallback(() => {
+      if (!isLoggedIn && onRequireLogin) {
+        onRequireLogin();
+      }
+    }, [isLoggedIn, onRequireLogin])
+  );
+
+  const loadRecords = useCallback(async () => {
+    if (!isLoggedIn) {
+      console.log('[DiagnosisHistory] Not logged in');
+      setLoading(false);
+      setRecords([]);
+      return;
+    }
+    setLoading(true);
+    try {
+      // console.log('[DiagnosisHistory] Loading records, filter:', filter);
+      const favoriteParam = filter === 'favorite' ? true : undefined;
+      const data = await getDiagnoses(favoriteParam);
+      // console.log('[DiagnosisHistory] Loaded records:', data.items.length);
+      setRecords(data.items);
+    } catch (error: any) {
+      // console.error('[DiagnosisHistory] Failed to load diagnoses:', error);
+      // 401 未授权，跳转到登录页面
+      if (error?.response?.status === 401 && onRequireLogin) {
+        onRequireLogin();
+      }
+    } finally {
+      setLoading(false);
+    }
+  }, [filter, isLoggedIn]);
+
+  useEffect(() => {
+    loadRecords();
+  }, [loadRecords]);
+
+  const navigateToDetail = (diagnosisId: number) => {
+    console.log('[DiagnosisHistory] Navigating to detail, id:', diagnosisId, 'type:', typeof diagnosisId);
+    onNavigate('DiagnosisDetail', { diagnosisId });
+  };
+
+  const navigateToDiagnosis = () => {
+    onNavigate('Diagnosis');
+  };
+
+  const handleToggleFavorite = async (id: number) => {
+    try {
+      const result = await toggleFavorite(id);
+      setRecords(prev => prev.map(r => r.id === id ? { ...r, is_favorite: result.is_favorite } : r));
+    } catch (error) {
+      console.error('Failed to toggle favorite:', error);
+    }
+  };
+
+  const handleDelete = async (id: number) => {
+    Alert.alert(
+      '确认删除',
+      '确定要删除这条诊断记录吗？',
+      [
+        { text: '取消', style: 'cancel' },
+        {
+          text: '删除',
+          style: 'destructive',
+          onPress: async () => {
+            try {
+              await deleteDiagnosis(id);
+              setRecords(prev => prev.filter(r => r.id !== id));
+            } catch (error) {
+              console.error('Failed to delete diagnosis:', error);
+              Alert.alert('删除失败', '无法删除诊断记录，请稍后重试');
+            }
+          },
+        },
+      ]
+    );
+  };
+
+  const formatDate = (dateString: string): string => {
+    const date = new Date(dateString);
+    const now = new Date();
+    const diffMs = now.getTime() - date.getTime();
+    const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+
+    if (diffDays === 0) {
+      const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
+      if (diffHours === 0) {
+        const diffMins = Math.floor(diffMs / (1000 * 60));
+        return diffMins <= 1 ? '刚刚' : `${diffMins}分钟前`;
+      }
+      return `${diffHours}小时前`;
+    }
+    if (diffDays === 1) return '昨天';
+    if (diffDays === 2) return '前天';
+    if (diffDays < 7) return `${diffDays}天前`;
+
+    return date.toLocaleDateString('zh-CN', {
+      month: '2-digit',
+      day: '2-digit',
+    });
+  };
+
+  const renderItem = ({ item }: { item: DiagnosisRecord }) => {
+    const confidenceConfig = getConfidenceConfig(item.confidence);
+
+    return (
+      <Pressable
+        style={({ pressed }) => [
+          styles.card,
+          pressed && styles.cardPressed,
+        ]}
+        onPress={() => navigateToDetail(item.id)}
+        android_ripple={{ color: colors.primaryLight + '20' }}
+      >
+        <View style={styles.cardImageContainer}>
+          {item?.image_url && typeof item.image_url === 'string' && item.image_url.trim().length > 0 ? (
+            <Image
+              source={{ uri: getFullImageUrl(item.image_url) }}
+              style={styles.cardImage}
+              resizeMode="cover"
+            />
+          ) : (
+            <View style={[styles.cardImage, styles.cardImagePlaceholder]}>
+              <Icon name="image" size={24} color={colors['text-tertiary']} />
+            </View>
+          )}
+          {item.is_favorite && (
+            <View style={styles.favoriteBadge}>
+              <Icon name="star" size={12} color={colors.accent} fill={colors.accent} />
+            </View>
+          )}
+        </View>
+
+        <View style={styles.cardContent}>
+          <View style={styles.cardHeader}>
+            <Text style={styles.diseaseName} numberOfLines={1}>
+              {item.disease_name}
+            </Text>
+          </View>
+
+          <View style={[styles.confidenceBadge, { backgroundColor: confidenceConfig.bgColor }]}>
+            <Icon name="shield-check" size={12} color={confidenceConfig.color} />
+            <Text style={[styles.confidenceText, { color: confidenceConfig.color }]}>
+              {confidenceConfig.label} {(item.confidence * 100).toFixed(0)}%
+            </Text>
+          </View>
+
+          <View style={styles.cardMeta}>
+            <View style={styles.metaItem}>
+              <Icon name="clock" size={14} color={colors['text-tertiary']} />
+              <Text style={styles.metaText}>{formatDate(item.created_at)}</Text>
+            </View>
+          </View>
+        </View>
+
+        <View style={styles.cardActions}>
+          <TouchableOpacity
+            style={styles.favoriteButton}
+            onPress={() => handleToggleFavorite(item.id)}
+            hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
+          >
+            <Icon
+              name="star"
+              size={18}
+              color={item.is_favorite ? colors.accent : colors['text-secondary']}
+              fill={item.is_favorite ? colors.accent : 'none'}
+            />
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.deleteButton}
+            onPress={() => handleDelete(item.id)}
+            hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
+          >
+            <Icon name="trash" size={18} color={colors.error} />
+          </TouchableOpacity>
+          <Icon name="chevron-right" size={20} color={colors['text-light']} />
+        </View>
+      </Pressable>
+    );
+  };
+
+  return (
+    <SafeAreaView style={styles.container}>
+      {/* Header */}
+      <View style={styles.header}>
+        <TouchableOpacity
+          style={styles.backButton}
+          onPress={onGoBack}
+          hitSlop={{ top: 12, bottom: 12, left: 12, right: 12 }}
+          activeOpacity={1}
+        >
+          <Icon name="arrow-left" size={24} color={colors.text} />
+        </TouchableOpacity>
+        <View style={styles.headerContent}>
+          <Text style={styles.headerTitle}>诊断历史</Text>
+          <Text style={styles.headerSubtitle}>
+            {filter === 'all' ? '全部记录' : '我的收藏'}
+          </Text>
+        </View>
+        <TouchableOpacity
+          style={styles.addButton}
+          onPress={navigateToDiagnosis}
+          activeOpacity={duration.pressed}
+        >
+          <Icon name="plus" size={22} color={colors.white} />
+        </TouchableOpacity>
+      </View>
+
+      {/* Filter tabs */}
+      <View style={styles.tabsContainer}>
+        <View style={styles.tabs}>
+          <Pressable
+            style={[styles.tab, filter === 'all' && styles.tabActive]}
+            onPress={() => setFilter('all')}
+            android_ripple={{ color: colors.primaryLight + '20', borderless: true }}
+          >
+            <Icon
+              name="clipboard"
+              size={18}
+              color={filter === 'all' ? colors.primary : colors['text-secondary']}
+            />
+            <Text style={[styles.tabText, filter === 'all' && styles.tabTextActive]}>
+              全部
+            </Text>
+          </Pressable>
+          <Pressable
+            style={[styles.tab, filter === 'favorite' && styles.tabActive]}
+            onPress={() => setFilter('favorite')}
+            android_ripple={{ color: colors.primaryLight + '20', borderless: true }}
+          >
+            <Icon
+              name="star"
+              size={18}
+              color={filter === 'favorite' ? colors.accent : colors['text-secondary']}
+              fill={filter === 'favorite' ? colors.accent : 'transparent'}
+            />
+            <Text style={[styles.tabText, filter === 'favorite' && styles.tabTextActiveFavorite]}>
+              收藏
+            </Text>
+          </Pressable>
+        </View>
+      </View>
+
+      {/* Content */}
+      {loading ? (
+        <View style={styles.loadingContainer}>
+          <View style={styles.loadingCircle}>
+            <ActivityIndicator size="large" color={colors.primary} />
+          </View>
+          <Text style={styles.loadingText}>加载中...</Text>
+        </View>
+      ) : records.length === 0 ? (
+        <EmptyState filter={filter} onNavigateToDiagnosis={navigateToDiagnosis} />
+      ) : (
+        <FlatList
+          data={records}
+          renderItem={renderItem}
+          keyExtractor={(item) => item.id.toString()}
+          contentContainerStyle={styles.listContent}
+          showsVerticalScrollIndicator={false}
+          ItemSeparatorComponent={ListItemSeparator}
+        />
+      )}
+    </SafeAreaView>
+  );
+}
+
+const ListItemSeparator = () => <View style={{ height: spacing.md }} />;
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: colors.background,
+  },
+
+  // Header
+  header: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: spacing.md,
+    paddingVertical: spacing.sm,
+    backgroundColor: colors.surface,
+    borderBottomWidth: 1,
+    borderBottomColor: colors.border,
+  },
+  backButton: {
+    width: touchTarget.minimum,
+    height: touchTarget.minimum,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  headerContent: {
+    flex: 1,
+    alignItems: 'center',
+  },
+  headerTitle: {
+    fontSize: fontSize.lg,
+    fontWeight: fontWeight.bold,
+    color: colors.text,
+  },
+  headerSubtitle: {
+    fontSize: fontSize.xs,
+    color: colors['text-tertiary'],
+    marginTop: 2,
+  },
+  addButton: {
+    width: touchTarget.minimum,
+    height: touchTarget.minimum,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: colors.primary,
+    borderRadius: touchTarget.minimum / 2,
+    ...shadows.md,
+  },
+
+  // Tabs
+  tabsContainer: {
+    backgroundColor: colors.surface,
+    paddingHorizontal: spacing.lg,
+    paddingVertical: spacing.md,
+    borderBottomWidth: 1,
+    borderBottomColor: colors.border,
+  },
+  tabs: {
+    flexDirection: 'row',
+    backgroundColor: colors.background,
+    borderRadius: borderRadius.lg,
+    padding: spacing.xs,
+  },
+  tab: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: spacing.sm,
+    paddingHorizontal: spacing.md,
+    borderRadius: borderRadius.md,
+    gap: spacing.xs,
+  },
+  tabActive: {
+    backgroundColor: colors.surface,
+    ...shadows.sm,
+  },
+  tabText: {
+    fontSize: fontSize.md,
+    fontWeight: fontWeight.medium,
+    color: colors['text-secondary'],
+  },
+  tabTextActive: {
+    color: colors.primary,
+    fontWeight: fontWeight.semibold,
+  },
+  tabTextActiveFavorite: {
+    color: colors.accent,
+    fontWeight: fontWeight.semibold,
+  },
+
+  // List
+  listContent: {
+    padding: spacing.lg,
+  },
+
+  // Card
+  card: {
+    flexDirection: 'row',
+    backgroundColor: colors.surface,
+    borderRadius: borderRadius.xl,
+    padding: spacing.md,
+    ...shadows.md,
+    borderWidth: 1,
+    borderColor: colors.border,
+  },
+  cardPressed: {
+    ...shadows.sm,
+    transform: [{ scale: 0.98 }],
+  },
+  cardImageContainer: {
+    position: 'relative',
+  },
+  cardImage: {
+    width: 80,
+    height: 80,
+    borderRadius: borderRadius.lg,
+    backgroundColor: colors.background,
+  },
+  cardImagePlaceholder: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: colors.surface,
+  },
+  favoriteBadge: {
+    position: 'absolute',
+    top: -4,
+    right: -4,
+    backgroundColor: colors.white,
+    borderRadius: 10,
+    padding: 4,
+    ...shadows.sm,
+  },
+  cardContent: {
+    flex: 1,
+    marginLeft: spacing.md,
+    justifyContent: 'center',
+  },
+  cardHeader: {
+    marginBottom: spacing.xs,
+  },
+  diseaseName: {
+    fontSize: fontSize.lg,
+    fontWeight: fontWeight.semibold,
+    color: colors.text,
+  },
+  confidenceBadge: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    alignSelf: 'flex-start',
+    paddingHorizontal: spacing.sm,
+    paddingVertical: 4,
+    borderRadius: borderRadius.sm,
+    gap: 4,
+    marginBottom: spacing.sm,
+  },
+  confidenceText: {
+    fontSize: fontSize.xs,
+    fontWeight: fontWeight.semibold,
+  },
+  cardMeta: {
+    flexDirection: 'row',
+  },
+  metaItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 4,
+  },
+  metaText: {
+    fontSize: fontSize.xs,
+    color: colors['text-tertiary'],
+  },
+  cardArrow: {
+    justifyContent: 'center',
+    paddingLeft: spacing.xs,
+  },
+  cardActions: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: spacing.sm,
+  },
+  deleteButton: {
+    width: 36,
+    height: 36,
+    borderRadius: 18,
+    backgroundColor: colors.errorLight + '40',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  favoriteButton: {
+    width: 36,
+    height: 36,
+    borderRadius: 18,
+    backgroundColor: colors.accentLight + '40',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+
+  // Loading
+  loadingContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    gap: spacing.md,
+  },
+  loadingCircle: {
+    width: 60,
+    height: 60,
+    borderRadius: 30,
+    backgroundColor: colors.surface,
+    justifyContent: 'center',
+    alignItems: 'center',
+    ...shadows.md,
+  },
+  loadingText: {
+    fontSize: fontSize.md,
+    color: colors['text-secondary'],
+  },
+
+  // Empty state
+  emptyContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingHorizontal: spacing.xl,
+  },
+  emptyIconContainer: {
+    marginBottom: spacing.lg,
+  },
+  emptyIconInner: {
+    width: 120,
+    height: 120,
+    borderRadius: 60,
+    backgroundColor: colors.surface,
+    justifyContent: 'center',
+    alignItems: 'center',
+    ...shadows.lg,
+  },
+  emptyTitle: {
+    fontSize: fontSize.xl,
+    fontWeight: fontWeight.semibold,
+    color: colors.text,
+    marginBottom: spacing.sm,
+  },
+  emptySubtitle: {
+    fontSize: fontSize.md,
+    color: colors['text-secondary'],
+    textAlign: 'center',
+    marginBottom: spacing.xl,
+    lineHeight: 22,
+  },
+  emptyButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: spacing.sm,
+    paddingHorizontal: spacing.xl,
+    paddingVertical: spacing.md,
+    backgroundColor: colors.primary,
+    borderRadius: borderRadius.full,
+    ...shadows.lg,
+  },
+  emptyButtonIcon: {
+    width: 32,
+    height: 32,
+    borderRadius: 16,
+    backgroundColor: colors.primaryDark,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  emptyButtonText: {
+    fontSize: fontSize.lg,
+    fontWeight: fontWeight.semibold,
+    color: colors.white,
+  },
+});

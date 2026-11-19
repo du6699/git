@@ -1,0 +1,169 @@
+// 主题常量
+$primary: #f46;
+$primary-light: #ff6b88;
+$background: #fafafa;
+$surface: #ffffff;
+$text: #333333;
+$text-secondary: #666666;
+$text-tertiary: #999999;
+$border: #eeeeee;
+$success: #52c41a;
+$error: #ff4d4f;
+$warning: #faad14;
+
+// 间距
+$xs: 8px;
+$sm: 12px;
+$md: 16px;
+$lg: 20px;
+$xl: 24px;
+
+.address-edit-page {
+  min-height: 100vh;
+  background: $background;
+  display: flex;
+  flex-direction: column;
+}
+
+.page-loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: $background;
+}
+
+.loading-text {
+  font-size: 14px;
+  color: $text-tertiary;
+}
+
+/* 渐变头部 - borderBottomRadius:24 */
+.header-gradient {
+  background: $primary;
+  border-bottom-left-radius: 24px;
+  border-bottom-right-radius: 24px;
+  overflow: hidden;
+}
+
+.header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: $lg $xl;
+  padding-top: 60px;
+  padding-bottom: $xl;
+}
+
+.back-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.2);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.header-title {
+  font-size: 24px;
+  font-weight: bold;
+  color: #ffffff;
+  flex: 1;
+  text-align: center;
+}
+
+.placeholder {
+  width: 36px;
+}
+
+/* 表单 */
+.form {
+  flex: 1;
+  padding: $md;
+  height: calc(100vh - 200px - 120px);
+}
+
+.input-group {
+  margin-bottom: $md;
+}
+
+.label {
+  font-size: 14px;
+  color: $text-secondary;
+  margin-bottom: $xs;
+  display: block;
+}
+
+.input {
+  border: 1px solid $border;
+  border-radius: 8px;
+  padding: $sm;
+  font-size: 16px;
+  color: $text;
+  background: $surface;
+  width: 100%;
+  box-sizing: border-box;
+  min-height: 44px;
+}
+
+.input-placeholder {
+  color: $text-tertiary;
+  font-size: 14px;
+}
+
+.text-area {
+  min-height: 80px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* 复选框 */
+.checkbox-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: $md;
+}
+
+.checkbox {
+  width: 22px;
+  height: 22px;
+  border-radius: 4px;
+  border: 2px solid $primary;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: $sm;
+
+  &.checked {
+    background: $primary;
+  }
+}
+
+.checkbox-label {
+  font-size: 14px;
+  color: $text;
+}
+
+/* 保存按钮 */
+.save-btn {
+  background: $primary;
+  padding: $md;
+  margin: $md;
+  border-radius: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &.disabled {
+    opacity: 0.6;
+  }
+}
+
+.save-btn-text {
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 600;
+}

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="护花使者管理后台 - 商品管理">
+  <title>商品管理 · 护花使者管理后台</title>
+  <link rel="icon" href="assets/img/logo.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="assets/css/app.css">
+</head>
+<body data-page="products">
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar" aria-label="侧边栏"></aside>
+    <div class="app-main">
+      <header class="topbar" id="topbar"></header>
+
+      <main class="page-content">
+        <div class="page-head">
+          <div>
+            <div class="page-eyebrow">Product Catalog</div>
+            <h1 class="page-title">商品管理</h1>
+            <p class="page-subtitle">管理商品信息、价格、库存与上下架状态</p>
+          </div>
+          <div class="page-actions">
+            <button class="btn" type="button" data-action="toast" data-toast="商品清单已导出（演示）"><span data-icon="Export"></span>导出商品</button>
+            <button class="btn btn-primary" type="button" data-action="toast" data-toast="新建商品表单已打开（演示）"><span data-icon="Add"></span>新建商品</button>
+          </div>
+        </div>
+
+        <div class="stat-strip">
+          <div class="stat-strip-item"><div class="stat-strip-label">商品总数</div><div class="stat-strip-value">328</div></div>
+          <div class="stat-strip-item"><div class="stat-strip-label">在售商品</div><div class="stat-strip-value">296</div></div>
+          <div class="stat-strip-item"><div class="stat-strip-label">库存预警</div><div class="stat-strip-value">12</div></div>
+          <div class="stat-strip-item"><div class="stat-strip-label">本月商品销售额</div><div class="stat-strip-value">¥128,460</div></div>
+        </div>
+
+        <section class="card mt-18" id="productsCard">
+          <div class="toolbar">
+            <div class="field has-icon"><span data-icon="Search"></span><input class="input" type="search" data-table-search placeholder="搜索商品名称或 SKU" aria-label="搜索商品"></div>
+            <select class="select" aria-label="商品分类"><option>全部分类</option><option>养护工具</option><option>肥料营养</option><option>智能设备</option><option>花盆器皿</option></select>
+            <select class="select" aria-label="库存状态"><option>全部库存</option><option>库存充足</option><option>库存偏低</option><option>已售罄</option></select>
+            <span class="spacer"></span>
+            <button class="btn btn-sm" type="button" data-action="reset-filter"><span data-icon="Refresh"></span>重置</button>
+            <button class="btn btn-sm" type="button" data-action="export"><span data-icon="Download"></span>导出 CSV</button>
+          </div>
+
+          <div class="filter-chips">
+            <button class="chip active" type="button" data-filter-val="all">全部商品 <span class="count">328</span></button>
+            <button class="chip" type="button" data-filter-val="on">在售 <span class="count">296</span></button>
+            <button class="chip" type="button" data-filter-val="off">已下架 <span class="count">32</span></button>
+          </div>
+
+          <div class="bulk-bar"><span>已选择 <b data-bulk-count>0</b> 项</span><span class="spacer"></span>
+            <button class="btn btn-sm" type="button" data-action="toast" data-toast="已批量上架（演示）">批量上架</button>
+            <button class="btn btn-sm" type="button" data-action="toast" data-toast="已批量下架（演示）">批量下架</button>
+          </div>
+
+          <div class="table-wrap">
+            <table class="data-table">
+              <thead><tr>
+                <th><input type="checkbox" data-select-all aria-label="全选商品"></th>
+                <th class="sortable" data-sort="商品">商品 <span class="sort-ind"><span data-icon="ChevronDown"></span></span></th>
+                <th>分类</th>
+                <th class="sortable" data-sort="价格">价格 <span class="sort-ind"><span data-icon="ChevronDown"></span></span></th>
+                <th class="sortable" data-sort="库存">库存 <span class="sort-ind"><span data-icon="ChevronDown"></span></span></th>
+                <th class="sortable" data-sort="销量">销量 <span class="sort-ind"><span data-icon="ChevronDown"></span></span></th>
+                <th>状态</th>
+                <th>操作</th>
+              </tr></thead>
+              <tbody data-render="productsBody"></tbody>
+            </table>
+          </div>
+
+          <div class="empty-state" data-empty hidden>
+            <div class="empty-icon"><span data-icon="ShoppingBag"></span></div>
+            <b>没有找到匹配的商品</b>
+            <span>调整搜索词或筛选条件后再试</span>
+          </div>
+
+          <div class="table-foot">
+            <span>显示 <b data-visible-count>10</b> 条 · 共 328 件商品</span>
+            <div class="pagination">
+              <button class="page-btn" type="button" aria-label="上一页"><span data-icon="ChevronLeft"></span></button>
+              <button class="page-btn active" type="button" data-page-index="1">1</button>
+              <button class="page-btn" type="button" data-page-index="2">2</button>
+              <button class="page-btn" type="button" data-page-index="3">3</button>
+              <span>…</span>
+              <button class="page-btn" type="button" data-page-index="33">33</button>
+              <button class="page-btn" type="button" aria-label="下一页"><span data-icon="ChevronRight"></span></button>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <script src="assets/js/icons.js"></script>
+  <script src="assets/js/data.js"></script>
+  <script src="assets/js/app.js"></script>
+</body>
+</html>

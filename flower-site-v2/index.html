@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="护花使者管理后台 - 运营数据总览">
+  <title>仪表盘 · 护花使者管理后台</title>
+  <link rel="icon" href="assets/img/logo.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="assets/css/app.css">
+</head>
+<body data-page="dashboard">
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar" aria-label="侧边栏"></aside>
+    <div class="app-main">
+      <header class="topbar" id="topbar"></header>
+
+      <main class="page-content">
+        <div class="page-head">
+          <div>
+            <div class="page-eyebrow">Overview</div>
+            <h1 class="page-title">仪表盘</h1>
+            <p class="page-subtitle">欢迎回来，何思远。<span id="todayText"></span> · 今日有 20 项事务待处理</p>
+          </div>
+          <div class="page-actions">
+            <button class="btn" type="button" data-action="toast" data-toast="运营概览已导出（演示）"><span data-icon="Export"></span>导出概览</button>
+            <a class="btn btn-primary" href="stats.html"><span data-icon="ChartBar"></span>查看完整报表</a>
+          </div>
+        </div>
+
+        <div class="grid kpi-grid" data-render="kpis"></div>
+
+        <div class="grid main-grid mt-18">
+          <section class="card">
+            <div class="card-head">
+              <div>
+                <h2 class="card-title">营收与订单趋势</h2>
+                <p class="card-sub">营收为实线（左轴），订单为虚线（右轴）</p>
+              </div>
+              <div class="chart-tabs" role="group" aria-label="时间范围">
+                <button type="button" class="active" data-period="7">7 天</button>
+                <button type="button" data-period="30">30 天</button>
+                <button type="button" data-period="90">90 天</button>
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="chart-area" id="trendChart"></div>
+              <div class="chart-legend">
+                <span class="legend-item"><span class="legend-dot"></span>营收金额（元）</span>
+                <span class="legend-item"><span class="legend-dot dashed"></span>订单数量（单）</span>
+              </div>
+            </div>
+          </section>
+
+          <div class="stack">
+            <section class="card">
+              <div class="card-head">
+                <div><h2 class="card-title">待办事项</h2><p class="card-sub">优先处理影响用户体验的任务</p></div>
+                <a class="btn btn-sm btn-ghost" href="orders.html">全部</a>
+              </div>
+              <div class="card-body"><div class="todo-list" data-render="todos"></div></div>
+            </section>
+
+            <section class="card">
+              <div class="card-head">
+                <div><h2 class="card-title">最近 AI 诊断</h2><p class="card-sub">实时识别记录</p></div>
+                <a class="btn btn-sm btn-ghost" href="diagnosis.html">查看</a>
+              </div>
+              <div class="card-body"><div class="mini-list" data-render="recentDiagnoses"></div></div>
+            </section>
+          </div>
+        </div>
+
+        <div class="grid two-col mt-18">
+          <section class="card">
+            <div class="card-head">
+              <div><h2 class="card-title">热销商品</h2><p class="card-sub">本月销量排行前四</p></div>
+              <a class="btn btn-sm btn-ghost" href="products.html">商品管理</a>
+            </div>
+            <div class="table-wrap">
+              <table class="data-table">
+                <thead><tr><th>商品</th><th>销量</th><th>销售额</th><th>环比</th></tr></thead>
+                <tbody data-render="topProducts"></tbody>
+              </table>
+            </div>
+          </section>
+
+          <section class="card">
+            <div class="card-head">
+              <div><h2 class="card-title">最新订单</h2><p class="card-sub">实时订单动态</p></div>
+              <a class="btn btn-sm btn-ghost" href="orders.html">订单管理</a>
+            </div>
+            <div class="table-wrap">
+              <table class="data-table">
+                <thead><tr><th>订单号</th><th>客户</th><th>金额</th><th>状态</th><th>时间</th></tr></thead>
+                <tbody data-render="latestOrders"></tbody>
+              </table>
+            </div>
+          </section>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <script src="assets/js/icons.js"></script>
+  <script src="assets/js/data.js"></script>
+  <script src="assets/js/app.js"></script>
+</body>
+</html>

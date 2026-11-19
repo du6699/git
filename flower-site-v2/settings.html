@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="护花使者管理后台 - 系统设置">
+  <title>系统设置 · 护花使者管理后台</title>
+  <link rel="icon" href="assets/img/logo.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="assets/css/app.css">
+</head>
+<body data-page="settings">
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar" aria-label="侧边栏"></aside>
+    <div class="app-main">
+      <header class="topbar" id="topbar"></header>
+
+      <main class="page-content">
+        <div class="page-head">
+          <div>
+            <div class="page-eyebrow">System Settings</div>
+            <h1 class="page-title">系统设置</h1>
+            <p class="page-subtitle">配置站点信息、通知策略与后台显示偏好</p>
+          </div>
+          <div class="page-actions">
+            <button class="btn" type="button" data-action="toast" data-toast="设置已恢复为默认值（演示）"><span data-icon="Refresh"></span>恢复默认</button>
+            <button class="btn btn-primary" type="button" data-action="save-settings"><span data-icon="Check"></span>保存全部更改</button>
+          </div>
+        </div>
+
+        <div class="grid two-col">
+          <section class="card">
+            <div class="card-head"><div><h2 class="card-title">站点信息</h2><p class="card-sub">这些信息会展示在用户端与通知邮件中</p></div>
+              <span data-icon="Building" class="card-icon"></span></div>
+            <div class="card-body">
+              <div class="form-grid">
+                <div class="form-group"><label class="form-label" for="siteName">站点名称</label><input class="form-control" id="siteName" value="护花使者"></div>
+                <div class="form-group"><label class="form-label" for="siteSlogan">品牌标语</label><input class="form-control" id="siteSlogan" value="你的掌上植物管家"></div>
+                <div class="form-group"><label class="form-label" for="supportEmail">客服邮箱</label><input class="form-control" id="supportEmail" type="email" value="support@flowerguardian.cn"></div>
+                <div class="form-group"><label class="form-label" for="supportPhone">联系电话</label><input class="form-control" id="supportPhone" value="400-800-1234"></div>
+                <div class="form-group full"><label class="form-label" for="siteDesc">站点简介</label><textarea class="form-control" id="siteDesc">通过 AI 图像识别与科学养护内容，帮助每一位养花小白轻松照顾自己的植物。</textarea></div>
+              </div>
+              <div style="display:flex;justify-content:flex-end;margin-top:18px"><button class="btn btn-primary btn-sm" type="button" data-action="save-settings">保存站点信息</button></div>
+            </div>
+          </section>
+
+          <div class="stack">
+            <section class="card">
+              <div class="card-head"><div><h2 class="card-title">通知策略</h2><p class="card-sub">选择需要接收的运营提醒</p></div></div>
+              <div class="card-body" style="padding-top:8px">
+                <div class="setting-row"><span class="setting-icon"><span data-icon="Receipt"></span></span><span class="setting-text"><span class="setting-title">新订单提醒</span><span class="setting-desc">有新订单待确认时立即通知</span></span><label class="switch"><input type="checkbox" checked aria-label="新订单提醒"><span></span></label></div>
+                <div class="setting-row"><span class="setting-icon"><span data-icon="AlertTriangle"></span></span><span class="setting-text"><span class="setting-title">库存预警</span><span class="setting-desc">商品库存低于 20 件时提醒</span></span><label class="switch"><input type="checkbox" checked aria-label="库存预警"><span></span></label></div>
+                <div class="setting-row"><span class="setting-icon"><span data-icon="Stethoscope"></span></span><span class="setting-text"><span class="setting-title">诊断复核提醒</span><span class="setting-desc">AI 置信度低于 60% 时提醒</span></span><label class="switch"><input type="checkbox" checked aria-label="诊断复核提醒"><span></span></label></div>
+                <div class="setting-row"><span class="setting-icon"><span data-icon="Mailbox"></span></span><span class="setting-text"><span class="setting-title">每日运营简报</span><span class="setting-desc">每天 09:00 发送昨日数据摘要</span></span><label class="switch"><input type="checkbox" aria-label="每日运营简报"><span></span></label></div>
+              </div>
+            </section>
+
+            <section class="card">
+              <div class="card-head"><div><h2 class="card-title">显示偏好</h2><p class="card-sub">后台界面的外观与语言</p></div></div>
+              <div class="card-body" style="padding-top:8px">
+                <div class="setting-row"><span class="setting-icon"><span data-icon="Moon"></span></span><span class="setting-text"><span class="setting-title">深色模式</span><span class="setting-desc">降低夜间浏览的视觉疲劳</span></span><button class="btn btn-sm" type="button" data-action="theme">切换主题</button></div>
+                <div class="setting-row"><span class="setting-icon"><span data-icon="Grid"></span></span><span class="setting-text"><span class="setting-title">列表密度</span><span class="setting-desc">控制表格的行高与信息密度</span></span><select class="select" aria-label="列表密度"><option>标准</option><option>紧凑</option><option>宽松</option></select></div>
+                <div class="setting-row"><span class="setting-icon"><span data-icon="Globe"></span></span><span class="setting-text"><span class="setting-title">后台语言</span><span class="setting-desc">界面文字显示语言</span></span><select class="select" aria-label="后台语言"><option>简体中文</option><option>English</option></select></div>
+              </div>
+            </section>
+          </div>
+        </div>
+
+        <div class="grid two-col mt-18">
+          <section class="card">
+            <div class="card-head"><div><h2 class="card-title">账号安全</h2><p class="card-sub">当前登录账号：何思远 · 超级管理员</p></div></div>
+            <div class="card-body" style="padding-top:8px">
+              <div class="setting-row"><span class="setting-icon"><span data-icon="Lock"></span></span><span class="setting-text"><span class="setting-title">登录密码</span><span class="setting-desc">上次修改于 2026 年 9 月 12 日</span></span><button class="btn btn-sm" type="button" data-action="toast" data-toast="密码修改链接已发送（演示）">修改密码</button></div>
+              <div class="setting-row"><span class="setting-icon"><span data-icon="ShieldCheck"></span></span><span class="setting-text"><span class="setting-title">两步验证</span><span class="setting-desc">登录时需要额外输入验证码</span></span><label class="switch"><input type="checkbox" checked aria-label="两步验证"><span></span></label></div>
+              <div class="setting-row"><span class="setting-icon"><span data-icon="Logout"></span></span><span class="setting-text"><span class="setting-title">退出当前账号</span><span class="setting-desc">退出后需要重新登录才能访问后台</span></span><button class="btn btn-sm btn-danger" type="button" data-action="logout">退出登录</button></div>
+            </div>
+          </section>
+
+          <section class="card">
+            <div class="card-head"><div><h2 class="card-title">系统信息</h2><p class="card-sub">部署与运行环境概览</p></div></div>
+            <div class="card-body">
+              <div class="mini-list">
+                <div class="mini-row"><span class="mini-thumb"><span data-icon="Activity"></span></span><span class="mini-main"><span class="mini-title">系统状态</span><span class="mini-sub">所有服务正常运行</span></span><span class="badge success">健康</span></div>
+                <div class="mini-row"><span class="mini-thumb"><span data-icon="Database"></span></span><span class="mini-main"><span class="mini-title">后端服务</span><span class="mini-sub">FastAPI · PostgreSQL</span></span><span class="mini-value">v1.0.0</span></div>
+                <div class="mini-row"><span class="mini-thumb"><span data-icon="Sparkles"></span></span><span class="mini-main"><span class="mini-title">AI 服务</span><span class="mini-sub">YOLO 识别 · Qwen 建议</span></span><span class="mini-value">已连接</span></div>
+                <div class="mini-row"><span class="mini-thumb"><span data-icon="Book"></span></span><span class="mini-main"><span class="mini-title">图标与设计</span><span class="mini-sub">Reicon 1.2.5 · MIT License</span></span><span class="mini-value">v2.0</span></div>
+              </div>
+            </div>
+          </section>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <script src="assets/js/icons.js"></script>
+  <script src="assets/js/data.js"></script>
+  <script src="assets/js/app.js"></script>
+</body>
+</html>

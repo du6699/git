@@ -1,0 +1,25 @@
+// 我将以项目中的“历史记录功能”为例，展示前端真实运行逻辑。
+try {
+ 
+ // 根据写好的过滤器生成收藏参数，统一参数格式
+  const favoriteParam = filter === 'favorite' ? true : undefined;
+
+ // 异步调用诊断服务获取历史数据，await 保证异步流程有序执行
+  const data = await diagnosisService.getHistory(favoriteParam);
+++
+  // 将返回数据存入记录列表
+  setRecords(data.items || []);
+} catch (err: any) {
+ 
+// 判断登录失效：未授权 / 登录已过期，统一提示并跳转登录页面
+  if (err.message?.includes('登录已过期') || err.message?.includes('未授权')) {
+    Taro.showModal({
+      title: '提示',
+      content: '登录已过期',
+      success: () => Taro.navigateTo({ url: '/pages/login/index' })
+    });
+  }
+
+  // 最后清空记录，保证页面状态安全
+  setRecords([]);
+}

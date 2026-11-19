@@ -1,0 +1,440 @@
+/* Diary - 与RN DiaryScreen样式保持一致 */
+.diary-page {
+  min-height: 100vh;
+  background: #fafafa;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Header - 与RN一致 */
+.header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 12px 16px;
+  background: #fff;
+  border-bottom-width: 1px;
+  border-bottom-style: solid;
+  border-bottom-color: #eee;
+}
+
+.header-back {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.header-center {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.header-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: #333;
+}
+
+.header-subtitle {
+  font-size: 12px;
+  color: #999;
+  margin-top: 2px;
+}
+
+.header-right {
+  width: 40px;
+  align-items: flex-end;
+}
+
+.write-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 18px;
+  background: #f46;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px rgba(244, 68, 102, 0.3);
+}
+
+/* Tabs - 与RN一致 */
+.tabs-container {
+  background: #fff;
+  padding: 8px 16px;
+}
+
+.tabs {
+  display: flex;
+  flex-direction: row;
+  background: #fafafa;
+  border-radius: 12px;
+  padding: 4px;
+}
+
+.tab {
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 12px;
+  border-radius: 8px;
+  gap: 4px;
+  position: relative;
+}
+
+.tab.active {
+  background: #fff;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+}
+
+.tab-text {
+  font-size: 14px;
+  font-weight: 500;
+  color: #999;
+}
+
+.tab-text.active {
+  color: #f46;
+  font-weight: 600;
+}
+
+/* Plant Filter - 与RN一致 */
+.plant-filter-container {
+  background: #fff;
+  padding: 8px 16px;
+  border-bottom-width: 1px;
+  border-bottom-style: solid;
+  border-bottom-color: #eee;
+}
+
+.plant-filter-scroll {
+  width: 100%;
+  white-space: nowrap;
+}
+
+.plant-filter-chips {
+  display: inline-flex;
+  flex-direction: row;
+  gap: 8px;
+  padding-right: 16px;
+}
+
+.plant-filter-chip {
+  padding: 4px 12px;
+  border-radius: 16px;
+  background: #fafafa;
+  border-width: 1px;
+  border-style: solid;
+  border-color: #eee;
+}
+
+.plant-filter-chip.active {
+  background: #f46;
+  border-color: #f46;
+}
+
+.plant-filter-text {
+  font-size: 13px;
+  color: #999;
+}
+
+.plant-filter-text.active {
+  color: #fff;
+  font-weight: 600;
+}
+
+/* Loading */
+.loading-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  padding: 64px 0;
+}
+
+.loading-text {
+  font-size: 14px;
+  color: #999;
+}
+
+/* Scroll */
+.diary-scroll {
+  flex: 1;
+  height: calc(100vh - 200px);
+}
+
+/* List */
+.list {
+  padding: 16px;
+}
+
+/* Empty State - 与RN一致 */
+.empty-state {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 0 32px;
+}
+
+.empty-icon-container {
+  width: 100px;
+  height: 100px;
+  border-radius: 50px;
+  background: #fafafa;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 16px;
+}
+
+.empty-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 4px;
+}
+
+.empty-subtitle {
+  font-size: 14px;
+  color: #999;
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.empty-btn {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 24px;
+  background: #f46;
+  border-radius: 24px;
+  box-shadow: 0 2px 8px rgba(244, 68, 102, 0.3);
+}
+
+.empty-btn-text {
+  font-size: 15px;
+  font-weight: 600;
+  color: #fff;
+}
+
+/* Diary Card - 与RN一致 */
+.diary-card {
+  background: #fff;
+  border-radius: 16px;
+  padding: 16px;
+  margin-bottom: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  border-width: 1px;
+  border-style: solid;
+  border-color: #eee;
+}
+
+.diary-header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.diary-user {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+}
+
+.diary-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 18px;
+  background: rgba(82, 196, 26, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.diary-plant-name {
+  font-size: 15px;
+  font-weight: 600;
+  color: #333;
+}
+
+.diary-date {
+  font-size: 12px;
+  color: #bbb;
+  margin-top: 2px;
+}
+
+.growth-badge {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 4px;
+  background: rgba(82, 196, 26, 0.1);
+  padding: 4px 8px;
+  border-radius: 8px;
+}
+
+.growth-badge-text {
+  font-size: 11px;
+  font-weight: 600;
+  color: #52c41a;
+}
+
+.diary-content {
+  font-size: 15px;
+  color: #666;
+  line-height: 22px;
+  margin-bottom: 12px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+}
+
+/* Image Gallery */
+.image-gallery {
+  display: flex;
+  flex-direction: row;
+  gap: 4px;
+  margin-bottom: 12px;
+  position: relative;
+}
+
+.gallery-image {
+  width: 80px;
+  height: 80px;
+  border-radius: 8px;
+  background: #fafafa;
+}
+
+.gallery-image.single {
+  width: 100%;
+  height: 180px;
+}
+
+.more-images-overlay {
+  position: absolute;
+  right: 0;
+  width: 80px;
+  height: 80px;
+  border-radius: 8px;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.more-images-text {
+  font-size: 16px;
+  font-weight: 600;
+  color: #fff;
+}
+
+/* Diary Footer */
+.diary-footer {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding-top: 12px;
+  border-top-width: 1px;
+  border-top-style: solid;
+  border-top-color: #eee;
+}
+
+.stat-item {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 6px;
+  margin-right: 24px;
+}
+
+.stat-text {
+  font-size: 13px;
+  color: #999;
+}
+
+.delete-btn {
+  margin-left: auto;
+  padding: 4px;
+}
+
+/* Plant Card - 与RN一致 */
+.plant-card {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  background: #fff;
+  border-radius: 16px;
+  padding: 16px;
+  margin-bottom: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  border-width: 1px;
+  border-style: solid;
+  border-color: #eee;
+}
+
+.plant-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 24px;
+  background: rgba(82, 196, 26, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 16px;
+}
+
+.plant-info {
+  flex: 1;
+}
+
+.plant-card-name {
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 2px;
+}
+
+.plant-hint {
+  font-size: 13px;
+  color: #999;
+}
+
+.plant-delete-btn {
+  padding: 4px;
+  margin-right: 4px;
+}
+
+/* FAB */
+.fab {
+  position: fixed;
+  right: 16px;
+  bottom: 80px;
+  width: 56px;
+  height: 56px;
+  border-radius: 28px;
+  background: #f46;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(244, 68, 102, 0.4);
+  z-index: 100;
+}
+
+.bottom-spacer {
+  height: 100px;
+}

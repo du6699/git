@@ -1,0 +1,222 @@
+// 主题常量
+$primary: #f46;
+$primary-light: #ff6b88;
+$background: #fafafa;
+$surface: #ffffff;
+$text: #333333;
+$text-secondary: #666666;
+$text-tertiary: #999999;
+$border: #eeeeee;
+$success: #52c41a;
+$error: #ff4d4f;
+$warning: #faad14;
+
+// 间距
+$xs: 8px;
+$sm: 12px;
+$md: 16px;
+$lg: 20px;
+$xl: 24px;
+
+.order-detail {
+  min-height: 100vh;
+  background: $background;
+  display: flex;
+  flex-direction: column;
+}
+
+.loading-container {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.loading-text {
+  font-size: 14px;
+  color: $text-tertiary;
+}
+
+/* 头部渐变 */
+.header-gradient {
+  background: $primary;
+  border-bottom-left-radius: 24px;
+  border-bottom-right-radius: 24px;
+  overflow: hidden;
+}
+
+.header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: $lg $xl;
+  padding-top: 60px;
+  padding-bottom: $lg;
+}
+
+.back-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.header-title {
+  font-size: 24px;
+  font-weight: bold;
+  color: #fff;
+  flex: 1;
+  text-align: center;
+}
+
+.placeholder {
+  width: 36px;
+}
+
+.detail-scroll {
+  flex: 1;
+}
+
+.order-header {
+  padding: $md;
+  background: $surface;
+}
+
+.order-no {
+  font-size: 16px;
+  font-family: monospace;
+  color: $text;
+}
+
+.status-badge {
+  align-self: flex-start;
+  padding: 2px 12px;
+  border-radius: 12px;
+  margin-top: $xs;
+}
+
+.status-text {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.section {
+  background: $surface;
+  margin-top: $sm;
+  padding: $md;
+}
+
+.section-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: $text;
+  margin-bottom: $sm;
+}
+
+.item-row {
+  display: flex;
+  padding: $xs 0;
+  align-items: center;
+}
+
+.item-name {
+  flex: 1;
+  font-size: 14px;
+  color: $text;
+}
+
+.item-qty {
+  font-size: 14px;
+  color: $text-secondary;
+  margin-right: $md;
+}
+
+.item-price {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.total-row {
+  display: flex;
+  justify-content: space-between;
+  margin-top: $sm;
+  padding-top: $sm;
+  border-top: 1px solid $background;
+}
+
+.total-label {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.total-amount {
+  font-size: 18px;
+  font-weight: bold;
+  color: $primary;
+}
+
+.info-text {
+  font-size: 14px;
+  color: $text-secondary;
+  margin-bottom: 4px;
+  display: block;
+  display: flex;
+  flex-direction: column;
+}
+
+.bottom-spacer {
+  height: 160px;
+}
+
+/* 底部操作按钮 */
+.footer {
+  display: flex;
+  padding: $md;
+  padding-bottom: calc(#{$md} + env(safe-area-inset-bottom));
+  background: $surface;
+  border-top: 1px solid $background;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+}
+
+.cancel-btn {
+  flex: 1;
+  padding: 12px 0;
+  border-radius: 24px;
+  border: 1px solid $error;
+  margin-right: $sm;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cancel-btn-text {
+  color: $error;
+  text-align: center;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.reorder-btn {
+  flex: 1;
+  padding: 12px 0;
+  border-radius: 24px;
+  background: $primary;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.reorder-btn-text {
+  color: $surface;
+  text-align: center;
+  font-weight: 600;
+  font-size: 14px;
+}

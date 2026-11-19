@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="护花使者管理后台 - 植物百科">
+  <title>植物百科 · 护花使者管理后台</title>
+  <link rel="icon" href="assets/img/logo.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="assets/css/app.css">
+</head>
+<body data-page="plants">
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar" aria-label="侧边栏"></aside>
+    <div class="app-main">
+      <header class="topbar" id="topbar"></header>
+
+      <main class="page-content">
+        <div class="page-head">
+          <div>
+            <div class="page-eyebrow">Plant Encyclopedia</div>
+            <h1 class="page-title">植物百科</h1>
+            <p class="page-subtitle">维护植物词条、养护指标与内容审核状态</p>
+          </div>
+          <div class="page-actions">
+            <button class="btn" type="button" data-action="toast" data-toast="植物词条已导出（演示）"><span data-icon="Export"></span>导出词条</button>
+            <button class="btn btn-primary" type="button" data-action="modal" data-modal="plantModal"><span data-icon="Add"></span>新建词条</button>
+          </div>
+        </div>
+
+        <div class="stat-strip">
+          <div class="stat-strip-item"><div class="stat-strip-label">词条总数</div><div class="stat-strip-value">1,268</div></div>
+          <div class="stat-strip-item"><div class="stat-strip-label">已发布</div><div class="stat-strip-value">1,184</div></div>
+          <div class="stat-strip-item"><div class="stat-strip-label">待审核</div><div class="stat-strip-value">5</div></div>
+          <div class="stat-strip-item"><div class="stat-strip-label">本周词条浏览</div><div class="stat-strip-value">84.6k</div></div>
+        </div>
+
+        <section class="card mt-18" id="plantsCard">
+          <div class="toolbar">
+            <div class="field has-icon"><span data-icon="Search"></span><input class="input" type="search" data-table-search placeholder="搜索植物名称、学名或标签" aria-label="搜索植物"></div>
+            <select class="select" aria-label="植物分类"><option>全部分类</option><option>花卉</option><option>观叶植物</option><option>多肉植物</option><option>香草植物</option></select>
+            <select class="select" aria-label="养护难度"><option>全部难度</option><option>入门</option><option>进阶</option><option>专业</option></select>
+            <span class="spacer"></span>
+            <button class="btn btn-sm" type="button" data-action="reset-filter"><span data-icon="Refresh"></span>重置</button>
+            <button class="btn btn-sm" type="button" data-action="export"><span data-icon="Download"></span>导出 CSV</button>
+          </div>
+
+          <div class="filter-chips">
+            <button class="chip active" type="button" data-filter-val="all">全部 <span class="count">1,268</span></button>
+            <button class="chip" type="button" data-filter-val="published">已发布 <span class="count">1,184</span></button>
+            <button class="chip" type="button" data-filter-val="review">待审核 <span class="count">5</span></button>
+            <button class="chip" type="button" data-filter-val="draft">草稿 <span class="count">79</span></button>
+          </div>
+
+          <div class="bulk-bar"><span>已选择 <b data-bulk-count>0</b> 项</span><span class="spacer"></span>
+            <button class="btn btn-sm" type="button" data-action="toast" data-toast="已批量发布选中词条（演示）">批量发布</button>
+            <button class="btn btn-sm btn-danger" type="button" data-action="toast" data-toast="已批量删除（演示）">批量删除</button>
+          </div>
+
+          <div class="table-wrap">
+            <table class="data-table">
+              <thead><tr>
+                <th><input type="checkbox" data-select-all aria-label="全选植物"></th>
+                <th class="sortable" data-sort="植物">植物 <span class="sort-ind"><span data-icon="ChevronDown"></span></span></th>
+                <th>分类</th>
+                <th>养护难度</th>
+                <th>关键标签</th>
+                <th class="sortable" data-sort="浏览">浏览量 <span class="sort-ind"><span data-icon="ChevronDown"></span></span></th>
+                <th>状态</th>
+                <th class="sortable" data-sort="更新">更新时间 <span class="sort-ind"><span data-icon="ChevronDown"></span></span></th>
+                <th>操作</th>
+              </tr></thead>
+              <tbody data-render="plantsBody"></tbody>
+            </table>
+          </div>
+
+          <div class="empty-state" data-empty hidden>
+            <div class="empty-icon"><span data-icon="Leaf"></span></div>
+            <b>没有找到匹配的词条</b>
+            <span>换个关键词，或新建一个植物词条</span>
+          </div>
+
+          <div class="table-foot">
+            <span>显示 <b data-visible-count>10</b> 条 · 共 1,268 个词条</span>
+            <div class="pagination">
+              <button class="page-btn" type="button" aria-label="上一页"><span data-icon="ChevronLeft"></span></button>
+              <button class="page-btn active" type="button" data-page-index="1">1</button>
+              <button class="page-btn" type="button" data-page-index="2">2</button>
+              <button class="page-btn" type="button" data-page-index="3">3</button>
+              <span>…</span>
+              <button class="page-btn" type="button" data-page-index="127">127</button>
+              <button class="page-btn" type="button" aria-label="下一页"><span data-icon="ChevronRight"></span></button>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <div class="overlay" id="plantModal" role="dialog" aria-modal="true" aria-labelledby="plantModalTitle">
+    <div class="modal">
+      <div class="modal-head"><span data-icon="Leaf"></span><h3 id="plantModalTitle">新建植物词条</h3>
+        <button class="icon-btn" type="button" data-action="close-modal" aria-label="关闭"><span data-icon="CloseCircle"></span></button>
+      </div>
+      <div class="modal-body">
+        <div class="form-grid">
+          <div class="form-group"><label class="form-label" for="plantName">植物名称</label><input class="form-control" id="plantName" placeholder="例如：月季"></div>
+          <div class="form-group"><label class="form-label" for="plantSci">学名</label><input class="form-control" id="plantSci" placeholder="Rosa chinensis"></div>
+          <div class="form-group"><label class="form-label" for="plantCat">分类</label><select class="form-control" id="plantCat"><option>花卉</option><option>观叶植物</option><option>多肉植物</option><option>香草植物</option></select></div>
+          <div class="form-group"><label class="form-label" for="plantLevel">养护难度</label><select class="form-control" id="plantLevel"><option>1 · 入门</option><option>2 · 简单</option><option>3 · 适中</option><option>4 · 进阶</option><option>5 · 专业</option></select></div>
+          <div class="form-group full"><label class="form-label" for="plantTags">关键标签</label><input class="form-control" id="plantTags" placeholder="喜阳、耐旱、勤修剪（用逗号分隔）"><span class="form-hint">标签会展示在用户端的养护卡片上</span></div>
+          <div class="form-group full"><label class="form-label" for="plantDesc">词条简介</label><textarea class="form-control" id="plantDesc" placeholder="用简洁直白的语言描述养护要点…"></textarea></div>
+        </div>
+      </div>
+      <div class="modal-foot">
+        <button class="btn" type="button" data-action="close-modal">取消</button>
+        <button class="btn btn-primary" type="button" data-action="save-and-close"><span data-icon="Check"></span>保存词条</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="assets/js/icons.js"></script>
+  <script src="assets/js/data.js"></script>
+  <script src="assets/js/app.js"></script>
+</body>
+</html>

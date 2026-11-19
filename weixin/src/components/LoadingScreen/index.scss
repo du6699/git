@@ -1,0 +1,273 @@
+.loading-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, #f46 0%, #ff6b88 50%, #ff8fa3 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  overflow: hidden;
+}
+
+.bg-circle {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.bg-circle-1 {
+  width: 400px;
+  height: 400px;
+  top: -120px;
+  right: -100px;
+  animation: bg-circle-float 8s ease-in-out infinite;
+}
+
+.bg-circle-2 {
+  width: 260px;
+  height: 260px;
+  bottom: -80px;
+  left: -60px;
+  animation: bg-circle-float 10s ease-in-out infinite reverse;
+}
+
+.bg-circle-3 {
+  width: 160px;
+  height: 160px;
+  top: 40%;
+  left: -40px;
+  background: rgba(255, 255, 255, 0.04);
+  animation: bg-circle-float 7s ease-in-out infinite;
+}
+
+.floating-icon {
+  position: absolute;
+  animation: float-up-down 4s ease-in-out infinite;
+}
+
+.floating-icon-1 {
+  top: 18%;
+  left: 12%;
+  animation-delay: 0s;
+}
+
+.floating-icon-2 {
+  top: 65%;
+  right: 15%;
+  animation-delay: 1.2s;
+}
+
+.floating-icon-3 {
+  bottom: 20%;
+  left: 20%;
+  animation-delay: 2.4s;
+}
+
+.loading-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 10;
+}
+
+.logo-wrapper {
+  position: relative;
+  width: 160px;
+  height: 160px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 40px;
+}
+
+.ring-outer {
+  position: absolute;
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.15);
+  border-top-color: rgba(255, 255, 255, 0.8);
+  animation: ring-spin 2.4s linear infinite;
+}
+
+.ring-middle {
+  position: absolute;
+  width: 130px;
+  height: 130px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.12);
+  border-bottom-color: rgba(255, 255, 255, 0.6);
+  animation: ring-spin 3.2s linear infinite reverse;
+}
+
+.ring-inner {
+  position: absolute;
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  border-left-color: rgba(255, 255, 255, 0.5);
+  animation: ring-spin 4s linear infinite;
+}
+
+.logo-container {
+  position: relative;
+  width: 88px;
+  height: 88px;
+  border-radius: 28px;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
+  animation: logo-pulse 2.4s ease-in-out infinite;
+}
+
+.logo-image {
+  width: 56px;
+  height: 56px;
+}
+
+.brand-text {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 36px;
+}
+
+.brand-title {
+  font-size: 36px;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: 4px;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.12);
+}
+
+.brand-subtitle {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.85);
+  margin-top: 8px;
+  letter-spacing: 2px;
+}
+
+.spinner-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 32px;
+  margin-bottom: 16px;
+}
+
+.spinner {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.spinner-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #fff;
+  animation: dot-bounce 1.4s ease-in-out infinite;
+}
+
+.spinner-dot-1 {
+  animation-delay: 0s;
+}
+
+.spinner-dot-2 {
+  animation-delay: 0.2s;
+}
+
+.spinner-dot-3 {
+  animation-delay: 0.4s;
+}
+
+.loading-text {
+  font-size: 16px;
+  color: #fff;
+  font-weight: 500;
+  letter-spacing: 1px;
+}
+
+.loading-subtext {
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.7);
+  margin-top: 8px;
+  animation: text-fade 2s ease-in-out infinite;
+}
+
+.footer-hint {
+  position: absolute;
+  bottom: 60px;
+  left: 0;
+  right: 0;
+  text-align: center;
+}
+
+.footer-text {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.5);
+  letter-spacing: 2px;
+}
+
+@keyframes ring-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes logo-pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.06);
+  }
+}
+
+@keyframes dot-bounce {
+  0%, 80%, 100% {
+    transform: scale(0.6);
+    opacity: 0.5;
+  }
+  40% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes bg-circle-float {
+  0%, 100% {
+    transform: translate(0, 0);
+  }
+  50% {
+    transform: translate(15px, -20px);
+  }
+}
+
+@keyframes float-up-down {
+  0%, 100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-16px) rotate(8deg);
+  }
+}
+
+@keyframes text-fade {
+  0%, 100% {
+    opacity: 0.6;
+  }
+  50% {
+    opacity: 1;
+  }
+}

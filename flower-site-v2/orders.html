@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="护花使者管理后台 - 订单管理">
+  <title>订单管理 · 护花使者管理后台</title>
+  <link rel="icon" href="assets/img/logo.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="assets/css/app.css">
+</head>
+<body data-page="orders">
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar" aria-label="侧边栏"></aside>
+    <div class="app-main">
+      <header class="topbar" id="topbar"></header>
+
+      <main class="page-content">
+        <div class="page-head">
+          <div>
+            <div class="page-eyebrow">Order Management</div>
+            <h1 class="page-title">订单管理</h1>
+            <p class="page-subtitle">跟踪订单状态、配送方式与处理进度</p>
+          </div>
+          <div class="page-actions">
+            <button class="btn" type="button" data-action="toast" data-toast="订单列表已导出（演示）"><span data-icon="Export"></span>导出订单</button>
+            <button class="btn btn-primary" type="button" data-action="toast" data-toast="已进入新建订单流程（演示）"><span data-icon="Add"></span>新建订单</button>
+          </div>
+        </div>
+
+        <div class="stat-strip">
+          <div class="stat-strip-item"><div class="stat-strip-label">本月订单</div><div class="stat-strip-value">1,284</div></div>
+          <div class="stat-strip-item"><div class="stat-strip-label">待确认</div><div class="stat-strip-value">12</div></div>
+          <div class="stat-strip-item"><div class="stat-strip-label">运输中</div><div class="stat-strip-value">342</div></div>
+          <div class="stat-strip-item"><div class="stat-strip-label">本月成交额</div><div class="stat-strip-value">¥128,460</div></div>
+        </div>
+
+        <section class="card mt-18" id="ordersCard">
+          <div class="toolbar">
+            <div class="field has-icon"><span data-icon="Search"></span><input class="input" type="search" data-table-search placeholder="搜索订单号、客户或手机号" aria-label="搜索订单"></div>
+            <select class="select" aria-label="配送方式"><option>全部配送方式</option><option>快递配送</option><option>到店自提</option></select>
+            <select class="select" aria-label="下单时间"><option>全部时间</option><option>今天</option><option>近 7 天</option><option>近 30 天</option></select>
+            <span class="spacer"></span>
+            <button class="btn btn-sm" type="button" data-action="reset-filter"><span data-icon="Refresh"></span>重置</button>
+            <button class="btn btn-sm" type="button" data-action="export"><span data-icon="Download"></span>导出 CSV</button>
+          </div>
+
+          <div class="filter-chips">
+            <button class="chip active" type="button" data-filter-val="all">全部 <span class="count">1,284</span></button>
+            <button class="chip" type="button" data-filter-val="pending">待确认 <span class="count">12</span></button>
+            <button class="chip" type="button" data-filter-val="confirmed">已确认 <span class="count">186</span></button>
+            <button class="chip" type="button" data-filter-val="shipped">已发货 <span class="count">342</span></button>
+            <button class="chip" type="button" data-filter-val="completed">已完成 <span class="count">712</span></button>
+            <button class="chip" type="button" data-filter-val="cancelled">已取消 <span class="count">32</span></button>
+          </div>
+
+          <div class="bulk-bar"><span>已选择 <b data-bulk-count>0</b> 项</span><span class="spacer"></span>
+            <button class="btn btn-sm" type="button" data-action="toast" data-toast="已批量确认订单（演示）">批量确认</button>
+            <button class="btn btn-sm" type="button" data-action="toast" data-toast="已生成发货单（演示）">批量发货</button>
+          </div>
+
+          <div class="table-wrap">
+            <table class="data-table">
+              <thead><tr>
+                <th><input type="checkbox" data-select-all aria-label="全选订单"></th>
+                <th class="sortable" data-sort="订单号">订单号 <span class="sort-ind"><span data-icon="ChevronDown"></span></span></th>
+                <th>客户</th>
+                <th>商品</th>
+                <th class="sortable" data-sort="金额">金额 <span class="sort-ind"><span data-icon="ChevronDown"></span></span></th>
+                <th>配送方式</th>
+                <th>状态</th>
+                <th class="sortable" data-sort="时间">下单时间 <span class="sort-ind"><span data-icon="ChevronDown"></span></span></th>
+                <th>操作</th>
+              </tr></thead>
+              <tbody data-render="ordersBody"></tbody>
+            </table>
+          </div>
+
+          <div class="empty-state" data-empty hidden>
+            <div class="empty-icon"><span data-icon="Receipt"></span></div>
+            <b>没有找到匹配的订单</b>
+            <span>尝试切换订单状态或清除搜索词</span>
+          </div>
+
+          <div class="table-foot">
+            <span>显示 <b data-visible-count>12</b> 条 · 共 1,284 笔订单</span>
+            <div class="pagination">
+              <button class="page-btn" type="button" aria-label="上一页"><span data-icon="ChevronLeft"></span></button>
+              <button class="page-btn active" type="button" data-page-index="1">1</button>
+              <button class="page-btn" type="button" data-page-index="2">2</button>
+              <button class="page-btn" type="button" data-page-index="3">3</button>
+              <span>…</span>
+              <button class="page-btn" type="button" data-page-index="129">129</button>
+              <button class="page-btn" type="button" aria-label="下一页"><span data-icon="ChevronRight"></span></button>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <div class="overlay" id="orderModal" role="dialog" aria-modal="true" aria-labelledby="orderModalTitle">
+    <div class="modal">
+      <div class="modal-head"><span data-icon="Receipt"></span><h3 id="orderModalTitle">订单详情</h3>
+        <button class="icon-btn" type="button" data-action="close-modal" aria-label="关闭"><span data-icon="CloseCircle"></span></button>
+      </div>
+      <div class="modal-body" id="orderDetailBody"></div>
+      <div class="modal-foot">
+        <button class="btn" type="button" data-action="close-modal">关闭</button>
+        <button class="btn btn-primary" type="button" data-action="save-and-close"><span data-icon="Truck"></span>确认处理</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="assets/js/icons.js"></script>
+  <script src="assets/js/data.js"></script>
+  <script src="assets/js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="护花使者管理后台 - 用户管理">
+  <title>用户管理 · 护花使者管理后台</title>
+  <link rel="icon" href="assets/img/logo.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="assets/css/app.css">
+</head>
+<body data-page="users">
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar" aria-label="侧边栏"></aside>
+    <div class="app-main">
+      <header class="topbar" id="topbar"></header>
+
+      <main class="page-content">
+        <div class="page-head">
+          <div>
+            <div class="page-eyebrow">User Management</div>
+            <h1 class="page-title">用户管理</h1>
+            <p class="page-subtitle">查看注册用户、角色分配与养护活跃度</p>
+          </div>
+          <div class="page-actions">
+            <button class="btn" type="button" data-action="toast" data-toast="用户数据已导出（演示）"><span data-icon="Export"></span>导出用户</button>
+            <button class="btn btn-primary" type="button" data-action="toast" data-toast="新建用户表单已打开（演示）"><span data-icon="Add"></span>新建用户</button>
+          </div>
+        </div>
+
+        <div class="stat-strip">
+          <div class="stat-strip-item"><div class="stat-strip-label">注册用户总数</div><div class="stat-strip-value">8,642</div></div>
+          <div class="stat-strip-item"><div class="stat-strip-label">本月新增</div><div class="stat-strip-value">1,028</div></div>
+          <div class="stat-strip-item"><div class="stat-strip-label">30 天活跃率</div><div class="stat-strip-value">68.4%</div></div>
+          <div class="stat-strip-item"><div class="stat-strip-label">人均养护植物</div><div class="stat-strip-value">6.2 盆</div></div>
+        </div>
+
+        <section class="card mt-18" id="usersCard">
+          <div class="toolbar">
+            <div class="field has-icon"><span data-icon="Search"></span><input class="input" type="search" data-table-search placeholder="搜索姓名、邮箱或手机号" aria-label="搜索用户"></div>
+            <select class="select" aria-label="注册时间"><option>全部注册时间</option><option>最近 7 天</option><option>最近 30 天</option><option>最近 90 天</option></select>
+            <select class="select" aria-label="用户状态"><option>全部状态</option><option>活跃</option><option>未激活</option></select>
+            <span class="spacer"></span>
+            <button class="btn btn-sm" type="button" data-action="reset-filter"><span data-icon="Refresh"></span>重置</button>
+            <button class="btn btn-sm" type="button" data-action="export"><span data-icon="Download"></span>导出 CSV</button>
+          </div>
+
+          <div class="filter-chips">
+            <button class="chip active" type="button" data-filter-val="all">全部用户 <span class="count">8,642</span></button>
+            <button class="chip" type="button" data-filter-val="管理员">管理员 <span class="count">3</span></button>
+            <button class="chip" type="button" data-filter-val="内容编辑">内容编辑 <span class="count">18</span></button>
+            <button class="chip" type="button" data-filter-val="普通用户">普通用户 <span class="count">8,621</span></button>
+          </div>
+
+          <div class="bulk-bar"><span>已选择 <b data-bulk-count>0</b> 项</span><span class="spacer"></span>
+            <button class="btn btn-sm" type="button" data-action="toast" data-toast="已批量调整角色（演示）">调整角色</button>
+            <button class="btn btn-sm btn-danger" type="button" data-action="toast" data-toast="已批量停用（演示）">批量停用</button>
+          </div>
+
+          <div class="table-wrap">
+            <table class="data-table">
+              <thead><tr>
+                <th><input type="checkbox" data-select-all aria-label="全选用户"></th>
+                <th class="sortable" data-sort="用户">用户 <span class="sort-ind"><span data-icon="ChevronDown"></span></span></th>
+                <th>手机号</th>
+                <th class="sortable" data-sort="角色">角色 <span class="sort-ind"><span data-icon="ChevronDown"></span></span></th>
+                <th class="sortable" data-sort="植物">植物 <span class="sort-ind"><span data-icon="ChevronDown"></span></span></th>
+                <th class="sortable" data-sort="订单">订单 <span class="sort-ind"><span data-icon="ChevronDown"></span></span></th>
+                <th>状态</th>
+                <th class="sortable" data-sort="注册">注册时间 <span class="sort-ind"><span data-icon="ChevronDown"></span></span></th>
+                <th>操作</th>
+              </tr></thead>
+              <tbody data-render="usersBody"></tbody>
+            </table>
+          </div>
+
+          <div class="empty-state" data-empty hidden>
+            <div class="empty-icon"><span data-icon="Search"></span></div>
+            <b>没有找到匹配的用户</b>
+            <span>尝试更换关键词或清除筛选条件</span>
+          </div>
+
+          <div class="table-foot">
+            <span>显示 <b data-visible-count>12</b> 条 · 共 8,642 条记录</span>
+            <div class="pagination">
+              <button class="page-btn" type="button" aria-label="上一页"><span data-icon="ChevronLeft"></span></button>
+              <button class="page-btn active" type="button" data-page-index="1">1</button>
+              <button class="page-btn" type="button" data-page-index="2">2</button>
+              <button class="page-btn" type="button" data-page-index="3">3</button>
+              <span>…</span>
+              <button class="page-btn" type="button" data-page-index="361">361</button>
+              <button class="page-btn" type="button" aria-label="下一页"><span data-icon="ChevronRight"></span></button>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <script src="assets/js/icons.js"></script>
+  <script src="assets/js/data.js"></script>
+  <script src="assets/js/app.js"></script>
+</body>
+</html>

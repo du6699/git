@@ -1,0 +1,65 @@
+# Flower Guardian - .gitignore
+
+# 依赖目录
+node_modules/
+**/node_modules/
+
+# 构建产物与缓存
+dist/
+build/
+.next/
+**/.next/
+*.tsbuildinfo
+.metro-health-check*
+coverage/
+.weex/
+.swc/
+**/.swc/
+.expo/web/
+
+# Python
+__pycache__/
+*.py[cod]
+.Python
+*.egg
+*.egg-info/
+venv/
+env/
+.venv/
+
+# 环境变量与密钥（.env.example 模板保留）
+.env
+.env.*
+!.env.example
+*.keystore
+*.jks
+project.private.config.json
+
+# 数据库与日志
+*.db
+*.sqlite
+*.log
+logs/
+
+# 工具状态目录
+.omc/
+**/.omc/
+
+# IDE 与系统
+.idea/
+.vscode/
+*.swp
+.DS_Store
+Thumbs.db
+
+# 误建的 0 字节占位文件
+/flower_guardian
+/npm
+
+# 数据集合与大文件（模型 .pt/.onnx 需要提交，不在此列）
+dataset/
+**/dataset/data/
+**/dataset/processed/
+**/dataset/augmented/
+**/dataset/split/
+**/models/runs/

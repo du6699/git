@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="护花使者管理后台 - AI 诊断记录">
+  <title>AI 诊断 · 护花使者管理后台</title>
+  <link rel="icon" href="assets/img/logo.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="assets/css/app.css">
+</head>
+<body data-page="diagnosis">
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar" aria-label="侧边栏"></aside>
+    <div class="app-main">
+      <header class="topbar" id="topbar"></header>
+
+      <main class="page-content">
+        <div class="page-head">
+          <div>
+            <div class="page-eyebrow">AI Diagnosis</div>
+            <h1 class="page-title">AI 诊断</h1>
+            <p class="page-subtitle">查看识别记录、置信度与需要人工复核的结果</p>
+          </div>
+          <div class="page-actions">
+            <button class="btn" type="button" data-action="toast" data-toast="诊断记录已导出（演示）"><span data-icon="Export"></span>导出记录</button>
+            <button class="btn btn-primary" type="button" data-action="toast" data-toast="已打开诊断模型配置（演示）"><span data-icon="Settings"></span>模型配置</button>
+          </div>
+        </div>
+
+        <div class="stat-strip">
+          <div class="stat-strip-item"><div class="stat-strip-label">今日诊断次数</div><div class="stat-strip-value">3,271</div></div>
+          <div class="stat-strip-item"><div class="stat-strip-label">识别准确率</div><div class="stat-strip-value">91.6%</div></div>
+          <div class="stat-strip-item"><div class="stat-strip-label">平均响应耗时</div><div class="stat-strip-value">1.8 秒</div></div>
+          <div class="stat-strip-item"><div class="stat-strip-label">待人工复核</div><div class="stat-strip-value">3</div></div>
+        </div>
+
+        <div class="grid main-grid mt-18">
+          <section class="card" id="diagnosisCard">
+            <div class="toolbar">
+              <div class="field has-icon"><span data-icon="Search"></span><input class="input" type="search" data-table-search placeholder="搜索植物或症状" aria-label="搜索诊断记录"></div>
+              <select class="select" aria-label="识别来源"><option>全部来源</option><option>拍照识别</option><option>相册导入</option></select>
+              <select class="select" aria-label="时间范围"><option>最近 24 小时</option><option>最近 7 天</option><option>最近 30 天</option></select>
+              <span class="spacer"></span>
+              <button class="btn btn-sm" type="button" data-action="reset-filter"><span data-icon="Refresh"></span>重置</button>
+              <button class="btn btn-sm" type="button" data-action="export"><span data-icon="Download"></span>导出 CSV</button>
+            </div>
+
+            <div class="filter-chips">
+              <button class="chip active" type="button" data-filter-val="all">全部记录 <span class="count">3,271</span></button>
+              <button class="chip" type="button" data-filter-val="confirmed">已确诊 <span class="count">2,986</span></button>
+              <button class="chip" type="button" data-filter-val="review">待复核 <span class="count">3</span></button>
+              <button class="chip" type="button" data-filter-val="ignored">已忽略 <span class="count">282</span></button>
+            </div>
+
+            <div class="bulk-bar"><span>已选择 <b data-bulk-count>0</b> 项</span><span class="spacer"></span>
+              <button class="btn btn-sm" type="button" data-action="toast" data-toast="已批量标记复核完成（演示）">标记已复核</button>
+            </div>
+
+            <div class="table-wrap">
+              <table class="data-table">
+                <thead><tr>
+                  <th><input type="checkbox" data-select-all aria-label="全选诊断"></th>
+                  <th>植物 / 症状</th>
+                  <th>AI 判断</th>
+                  <th class="sortable" data-sort="置信度">置信度 <span class="sort-ind"><span data-icon="ChevronDown"></span></span></th>
+                  <th>来源</th>
+                  <th>风险</th>
+                  <th>状态</th>
+                  <th>时间</th>
+                  <th>操作</th>
+                </tr></thead>
+                <tbody data-render="diagnosisBody"></tbody>
+              </table>
+            </div>
+
+            <div class="empty-state" data-empty hidden>
+              <div class="empty-icon"><span data-icon="Stethoscope"></span></div>
+              <b>没有找到诊断记录</b>
+              <span>调整筛选条件后再试</span>
+            </div>
+
+            <div class="table-foot">
+              <span>显示 <b data-visible-count>10</b> 条 · 今日共 3,271 次诊断</span>
+              <div class="pagination">
+                <button class="page-btn" type="button" aria-label="上一页"><span data-icon="ChevronLeft"></span></button>
+                <button class="page-btn active" type="button" data-page-index="1">1</button>
+                <button class="page-btn" type="button" data-page-index="2">2</button>
+                <button class="page-btn" type="button" data-page-index="3">3</button>
+                <span>…</span>
+                <button class="page-btn" type="button" data-page-index="327">327</button>
+                <button class="page-btn" type="button" aria-label="下一页"><span data-icon="ChevronRight"></span></button>
+              </div>
+            </div>
+          </section>
+
+          <div class="stack">
+            <section class="card">
+              <div class="card-head"><div><h2 class="card-title">常见问题分布</h2><p class="card-sub">近 30 天诊断结果归类</p></div></div>
+              <div class="card-body"><div class="breakdown-list" data-render="diagnosisDistribution"></div></div>
+            </section>
+
+            <section class="card">
+              <div class="card-head"><div><h2 class="card-title">模型运行状态</h2><p class="card-sub">YOLO 识别 + 大语言模型建议</p></div></div>
+              <div class="card-body">
+                <div class="mini-list">
+                  <div class="mini-row"><span class="mini-thumb"><span data-icon="Scan"></span></span><span class="mini-main"><span class="mini-title">图像识别服务</span><span class="mini-sub">平均响应 0.9 秒</span></span><span class="badge success">正常</span></div>
+                  <div class="mini-row"><span class="mini-thumb"><span data-icon="Sparkles"></span></span><span class="mini-main"><span class="mini-title">养护建议生成</span><span class="mini-sub">平均响应 1.6 秒</span></span><span class="badge success">正常</span></div>
+                  <div class="mini-row"><span class="mini-thumb"><span data-icon="HelpCircle"></span></span><span class="mini-main"><span class="mini-title">低置信度人工队列</span><span class="mini-sub">3 条等待处理</span></span><span class="badge warning">待处理</span></div>
+                </div>
+              </div>
+            </section>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <script src="assets/js/icons.js"></script>
+  <script src="assets/js/data.js"></script>
+  <script src="assets/js/app.js"></script>
+</body>
+</html>

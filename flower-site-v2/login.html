@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="护花使者管理后台 - 管理员登录">
+  <title>登录 · 护花使者管理后台</title>
+  <link rel="icon" href="assets/img/logo.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="assets/css/app.css">
+</head>
+<body data-page="login">
+  <main class="login-page">
+    <section class="login-left">
+      <div class="login-brand"><span class="brand-mark"><img src="assets/img/logo.svg" alt="护花使者标识"></span><b>护花使者</b></div>
+      <div class="login-hero">
+        <h1>让每一盆植物<br>都被好好照顾</h1>
+        <p>你的掌上植物管家，让养花不再凭感觉。从识别、提醒到病症诊断，把专业养护能力装进口袋。</p>
+        <div class="login-features">
+          <span class="login-feature"><span data-icon="Scan"></span>花卉识别</span>
+          <span class="login-feature"><span data-icon="Bell"></span>智能提醒</span>
+          <span class="login-feature"><span data-icon="Stethoscope"></span>AI 诊断</span>
+        </div>
+      </div>
+      <div class="login-footer-note">护花使者管理后台 · 运营与内容管理控制台</div>
+    </section>
+
+    <section class="login-right">
+      <div class="login-card">
+        <div class="page-eyebrow">Admin Sign In</div>
+        <h2>欢迎回来</h2>
+        <p class="lead">登录管理后台，继续处理订单、内容与运营数据。</p>
+
+        <div class="login-error" id="loginError" role="alert"></div>
+
+        <form id="loginForm" novalidate>
+          <div class="login-field">
+            <label for="loginUser">管理员账号</label>
+            <div class="login-input"><span data-icon="User"></span>
+              <input id="loginUser" name="username" type="text" placeholder="请输入用户名或邮箱" autocomplete="username" value="admin">
+            </div>
+          </div>
+          <div class="login-field">
+            <label for="loginPass">登录密码</label>
+            <div class="login-input"><span data-icon="Lock"></span>
+              <input id="loginPass" name="password" type="password" placeholder="请输入密码" autocomplete="current-password" value="admin123">
+              <button class="toggle-pw" type="button" aria-label="显示密码"><span data-icon="Eye"></span></button>
+            </div>
+          </div>
+          <div class="login-options">
+            <label><input type="checkbox" checked>记住登录状态</label>
+            <a href="#" data-action="toast" data-toast="请联系超级管理员重置密码">忘记密码？</a>
+          </div>
+          <button class="btn btn-primary login-submit" type="submit">登录后台 <span data-icon="ArrowRight"></span></button>
+        </form>
+
+        <div class="login-hint">
+          <b>演示说明</b><br>
+          这是一个带本地模拟数据的前端原型。点击「登录后台」即可进入仪表盘；页面与数据不会上传到服务器。
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="assets/js/icons.js"></script>
+  <script src="assets/js/data.js"></script>
+  <script src="assets/js/app.js"></script>
+</body>
+</html>

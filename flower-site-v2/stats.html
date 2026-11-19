@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="护花使者管理后台 - 数据统计">
+  <title>数据统计 · 护花使者管理后台</title>
+  <link rel="icon" href="assets/img/logo.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="assets/css/app.css">
+</head>
+<body data-page="stats">
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar" aria-label="侧边栏"></aside>
+    <div class="app-main">
+      <header class="topbar" id="topbar"></header>
+
+      <main class="page-content">
+        <div class="page-head">
+          <div>
+            <div class="page-eyebrow">Analytics</div>
+            <h1 class="page-title">数据统计</h1>
+            <p class="page-subtitle">营收、渠道、品类与地区表现全景分析</p>
+          </div>
+          <div class="page-actions">
+            <button class="btn" type="button" data-action="toast" data-toast="报表已生成（演示）"><span data-icon="File"></span>生成报表</button>
+            <button class="btn btn-primary" type="button" data-action="toast" data-toast="统计报表已导出（演示）"><span data-icon="Download"></span>导出数据</button>
+          </div>
+        </div>
+
+        <div class="stat-strip">
+          <div class="stat-strip-item"><div class="stat-strip-label">总营收</div><div class="stat-strip-value">¥128,460</div></div>
+          <div class="stat-strip-item"><div class="stat-strip-label">订单数量</div><div class="stat-strip-value">1,284</div></div>
+          <div class="stat-strip-item"><div class="stat-strip-label">平均客单价</div><div class="stat-strip-value">¥100.05</div></div>
+          <div class="stat-strip-item"><div class="stat-strip-label">用户总数</div><div class="stat-strip-value">8,642</div></div>
+        </div>
+
+        <div class="grid main-grid mt-18">
+          <section class="card">
+            <div class="card-head">
+              <div><h2 class="card-title">营收与订单趋势</h2><p class="card-sub">与仪表盘共用同一份趋势数据源</p></div>
+              <div class="chart-tabs" role="group" aria-label="时间范围">
+                <button type="button" class="active" data-period="7">7 天</button>
+                <button type="button" data-period="30">30 天</button>
+                <button type="button" data-period="90">90 天</button>
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="chart-area" id="trendChart"></div>
+              <div class="chart-legend">
+                <span class="legend-item"><span class="legend-dot"></span>营收金额（元）</span>
+                <span class="legend-item"><span class="legend-dot dashed"></span>订单数量（单）</span>
+              </div>
+            </div>
+          </section>
+
+          <div class="stack">
+            <section class="card">
+              <div class="card-head"><div><h2 class="card-title">营收来源渠道</h2><p class="card-sub">按用户下单入口统计</p></div></div>
+              <div class="card-body"><div class="breakdown-list" data-render="channels"></div></div>
+            </section>
+
+            <section class="card">
+              <div class="card-head"><div><h2 class="card-title">品类销售构成</h2><p class="card-sub">本月各品类销售占比</p></div></div>
+              <div class="card-body" data-render="categoryDonut"></div>
+            </section>
+          </div>
+        </div>
+
+        <div class="grid two-col mt-18">
+          <section class="card">
+            <div class="card-head"><div><h2 class="card-title">月度营收指数</h2><p class="card-sub">以 6 月为基准 100 的相对指数</p></div>
+              <span class="badge success">持续增长</span></div>
+            <div class="card-body"><div class="bar-chart" data-render="monthlyBars"></div></div>
+          </section>
+
+          <section class="card">
+            <div class="card-head"><div><h2 class="card-title">地区表现</h2><p class="card-sub">按成交额排序的前五个地区</p></div>
+              <a class="btn btn-sm btn-ghost" href="users.html">用户分布</a></div>
+            <div class="table-wrap">
+              <table class="data-table">
+                <thead><tr><th>地区</th><th>用户数</th><th>订单数</th><th>成交额</th></tr></thead>
+                <tbody data-render="regionsBody"></tbody>
+              </table>
+            </div>
+          </section>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <script src="assets/js/icons.js"></script>
+  <script src="assets/js/data.js"></script>
+  <script src="assets/js/app.js"></script>
+</body>
+</html>

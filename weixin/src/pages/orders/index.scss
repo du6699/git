@@ -1,0 +1,151 @@
+// 主题常量
+$primary: #f46;
+$primary-light: #ff6b88;
+$background: #fafafa;
+$surface: #ffffff;
+$text: #333333;
+$text-secondary: #666666;
+$text-tertiary: #999999;
+$border: #eeeeee;
+$success: #52c41a;
+$error: #ff4d4f;
+$warning: #faad14;
+
+// 间距
+$xs: 8px;
+$sm: 12px;
+$md: 16px;
+$lg: 20px;
+$xl: 24px;
+
+.orders-page {
+  min-height: 100vh;
+  background: $background;
+  display: flex;
+  flex-direction: column;
+}
+
+.loading-container {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.loading-text {
+  font-size: 14px;
+  color: $text-tertiary;
+}
+
+/* 头部渐变 */
+.header-gradient {
+  background: $primary;
+  border-bottom-left-radius: 24px;
+  border-bottom-right-radius: 24px;
+  overflow: hidden;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: $lg $lg;
+  padding-top: 60px;
+  padding-bottom: $lg;
+}
+
+.back-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.header-title {
+  font-size: 24px;
+  font-weight: bold;
+  color: #fff;
+  flex: 1;
+  text-align: center;
+}
+
+.placeholder {
+  width: 36px;
+}
+
+.empty {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.empty-text {
+  font-size: 16px;
+  color: $text-tertiary;
+}
+
+/* 订单列表滚动区域 */
+.orders-scroll {
+  flex: 1;
+}
+
+.list-content {
+  padding: $md;
+}
+
+.order-card {
+  background: $surface;
+  border-radius: 12px;
+  padding: $md;
+  margin-bottom: $md;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+}
+
+.order-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: $sm;
+}
+
+.order-no {
+  font-size: 14px;
+  font-family: monospace;
+  color: $text-secondary;
+}
+
+.status {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.order-items {
+  margin-bottom: $sm;
+}
+
+.item-text {
+  font-size: 14px;
+  color: $text;
+  display: block;
+  line-height: 1.6;
+}
+
+.order-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.total-amount {
+  font-size: 16px;
+  font-weight: bold;
+  color: $primary;
+}
+
+.date {
+  font-size: 12px;
+  color: $text-tertiary;
+}
